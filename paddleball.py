@@ -2,8 +2,8 @@ from tkinter import *
 import random
 import time
 
-STEP = 3
-PA_STEP = 2
+STEP = 2
+PA_STEP = 3
 #create class Ball
 class Ball:
     
@@ -63,9 +63,10 @@ class Paddle:
         self.canvas.move(self.id, self.x, 0)
         pos = self.canvas.coords(self.id)
         if pos[0] <= 0:
-            self.x = 0
+            self.x = PA_STEP
         elif pos[2] >= self.canvas_width:
-            self.x = 0
+            self.x = -PA_STEP
+
 
     def turn_left(self, evt):
         self.x = -PA_STEP
@@ -87,7 +88,7 @@ class Score:
         self.score += 1
         self.canvas.itemconfig(self.id, text=self.score)
 
-# Create a canvas
+
 tk = Tk()
 tk.title("Game")
 tk.resizable(0,0) # windows cannot be changed
@@ -96,20 +97,32 @@ canvas = Canvas(tk,width=500,height=400,bd=0,highlightthickness=0) # no edge
 canvas.pack()
 tk.update() # preparer initialision
 
-paddle = Paddle(canvas, 'blue')
-score = Score(canvas, 'green')
-ball = Ball(canvas, paddle, score, 'red')
+def re_start():
+    canvas.delete("all")
+    mainloop()
 
-over_text = canvas.create_text(250, 200, text='GAME OVER!', state='hidden')
+restart = Button(tk, text='restart', command=re_start).pack()
+exit = Button(tk, text='exit', command=tk.destroy).pack()
 
-# main loop
-while 1:
-    if ball.hit_bottom == False and paddle.start_game == True:
-        ball.draw()
-        paddle.draw()
-    if ball.hit_bottom == True:
-        time.sleep(1)
-        canvas.itemconfig(over_text, state='normal')
-    tk.update_idletasks() # redraw the canvas
-    tk.update()
-    time.sleep(0.01)       
+def mainloop():
+    # Create a canvas
+    paddle = Paddle(canvas, 'blue')
+    score = Score(canvas, 'green')
+    ball = Ball(canvas, paddle, score, 'red')
+    over_text = canvas.create_text(250, 200, text='GAME OVER!', state='hidden')
+    # main loop
+    while 1:    
+        if ball.hit_bottom == False and paddle.start_game == True:
+            ball.draw()
+            paddle.draw()
+        if ball.hit_bottom == True:
+            time.sleep(1)
+            canvas.itemconfig(over_text, state='normal')
+        tk.update_idletasks() # redraw the canvas
+        tk.update()
+        time.sleep(0.01) 
+
+
+mainloop()
+
+
