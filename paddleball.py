@@ -69,10 +69,10 @@ class Paddle:
 
 
     def turn_left(self, evt):
-        self.x = -PA_STEP
+        self.x = 0
 
     def turn_right(self, evt):
-        self.x = PA_STEP
+        self.x = 0
 
     def click(self, evt):
         self.start_game = True
