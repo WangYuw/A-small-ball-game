@@ -2,3 +2,5 @@
 This is a small game with a ball and a paddle, the ball fly on the screen, we should move the paddle to hit the ball, otherwise, the game will be over.
 
 ![Game](/game.PNG)
+
+I learned it from the book "Python for kids"
